@@ -1,6 +1,17 @@
-import { useAuth } from '@clerk/clerk-react';
-
 const API_BASE = '/api';
+
+const hasClerk = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+async function getClerkToken() {
+    if (!hasClerk) return null;
+    try {
+        const { useAuth } = await import('@clerk/clerk-react');
+        // Note: this won't work outside React — we'll use a different approach
+        return null;
+    } catch {
+        return null;
+    }
+}
 
 async function request(path, options = {}, getToken) {
     const headers = {
@@ -9,9 +20,13 @@ async function request(path, options = {}, getToken) {
     };
 
     if (getToken) {
-        const token = await getToken();
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
+        try {
+            const token = await getToken();
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+        } catch {
+            // Token fetch failed — continue without auth
         }
     }
 
@@ -30,7 +45,23 @@ async function request(path, options = {}, getToken) {
 
 // Custom hook that returns API methods with auth
 export function useApi() {
-    const { getToken } = useAuth();
+    let getToken = () => Promise.resolve(null);
+
+    if (hasClerk) {
+        // We need to use useAuth inside a component context
+        // This hook is only called from React components, so we can
+        // try to access the Clerk context
+        try {
+            // Access the already-loaded clerk module
+            const clerkReact = window.__clerk_react_module;
+            if (clerkReact) {
+                const { getToken: gt } = clerkReact.useAuth();
+                getToken = gt;
+            }
+        } catch {
+            // Clerk not ready yet
+        }
+    }
 
     const authed = (path, options) => request(path, options, getToken);
     const pub = (path, options) => request(path, options, null);

@@ -1,10 +1,44 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { UserButton } from '@clerk/clerk-react';
+import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import './Sidebar.css';
 
-export default function Sidebar({ isOpen, onClose }) {
-    const location = useLocation();
+const hasClerk = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
+// Dynamically loaded UserButton wrapper
+function AccountButton() {
+    const [ClerkButton, setClerkButton] = useState(null);
+
+    useEffect(() => {
+        if (hasClerk) {
+            import('@clerk/clerk-react').then(({ UserButton }) => {
+                setClerkButton(() => UserButton);
+            });
+        }
+    }, []);
+
+    if (!hasClerk) {
+        return <span className="sidebar-user-label">👤 Dev Mode</span>;
+    }
+
+    if (!ClerkButton) {
+        return <span className="sidebar-user-label">Loading...</span>;
+    }
+
+    return (
+        <>
+            <ClerkButton
+                appearance={{
+                    elements: {
+                        avatarBox: { width: 32, height: 32 },
+                    },
+                }}
+            />
+            <span className="sidebar-user-label">Account</span>
+        </>
+    );
+}
+
+export default function Sidebar({ isOpen, onClose }) {
     const links = [
         { to: '/', label: 'Personal Vault', icon: '📋' },
         { to: '/favorites', label: 'Favorites', icon: '⭐' },
@@ -37,14 +71,7 @@ export default function Sidebar({ isOpen, onClose }) {
                 </nav>
 
                 <div className="sidebar-footer">
-                    <UserButton
-                        appearance={{
-                            elements: {
-                                avatarBox: { width: 32, height: 32 },
-                            },
-                        }}
-                    />
-                    <span className="sidebar-user-label">Account</span>
+                    <AccountButton />
                 </div>
             </aside>
         </>
