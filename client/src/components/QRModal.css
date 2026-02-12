@@ -1,0 +1,40 @@
+.qr-modal {
+    text-align: center;
+    max-width: 380px;
+}
+
+.qr-modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.qr-modal-code {
+    background: var(--bg-card);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+}
+
+.qr-modal-hint {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.qr-modal-preview {
+    width: 100%;
+    text-align: left;
+}
+
+.qr-modal-preview pre {
+    font-family: 'SF Mono', monospace;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    background: var(--bg-secondary);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-break: break-word;
+}

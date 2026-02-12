@@ -1,0 +1,51 @@
+.clip-card {
+    margin-bottom: var(--spacing-md);
+    animation: slideUp 0.3s ease;
+}
+
+.clip-card-header {
+    margin-bottom: var(--spacing-sm);
+}
+
+.clip-card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.clip-card-time {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.clip-card-body {
+    margin-bottom: var(--spacing-md);
+}
+
+.clip-card-content {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.5;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.clip-card-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--border);
+}
+
+.btn-icon--active {
+    color: var(--accent) !important;
+}

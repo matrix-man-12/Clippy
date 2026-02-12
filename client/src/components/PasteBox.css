@@ -1,0 +1,61 @@
+.paste-box {
+    background: var(--bg-card);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.paste-box--drag {
+    border-color: var(--accent);
+    background: var(--accent-light);
+}
+
+.paste-box-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+}
+
+.paste-box-input::placeholder {
+    color: var(--text-muted);
+}
+
+.paste-box-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border);
+}
+
+.paste-box-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.paste-box-expiry {
+    padding: 0.25rem 0.5rem;
+    font-family: var(--font-family);
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    outline: none;
+}
+
+.paste-box-expiry:focus {
+    border-color: var(--border-focus);
+}

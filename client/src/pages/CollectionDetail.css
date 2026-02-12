@@ -1,0 +1,25 @@
+.collection-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-lg);
+}
+
+.invite-panel {
+    margin-bottom: var(--spacing-lg);
+}
+
+.invite-panel h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+.invite-form {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.invite-form .input {
+    flex: 1;
+}
