@@ -29,7 +29,10 @@ export default function PasteBox({ onItemCreated }) {
     const [contentType, setContentType] = useState('text');
     const [loading, setLoading] = useState(false);
     const [isDragOver, setIsDragOver] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const textareaRef = useRef(null);
+    const fileInputRef = useRef(null);
     const api = useApi();
 
     const detectContentType = (value) => {
@@ -43,6 +46,19 @@ export default function PasteBox({ onItemCreated }) {
     };
 
     const handlePaste = (e) => {
+        // Check for pasted images
+        const items = e.clipboardData?.items;
+        if (items) {
+            for (const item of items) {
+                if (item.type.startsWith('image/')) {
+                    e.preventDefault();
+                    const file = item.getAsFile();
+                    selectImage(file);
+                    return;
+                }
+            }
+        }
+
         const pasted = e.clipboardData.getData('text');
         if (pasted) {
             setContentType(detectContentType(pasted));
@@ -57,6 +73,26 @@ export default function PasteBox({ onItemCreated }) {
         }
     };
 
+    const selectImage = (file) => {
+        if (!file) return;
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            toast.error('Image must be under 5 MB');
+            return;
+        }
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(file));
+        setContentType('image');
+    };
+
+    const clearImage = () => {
+        if (imagePreview) URL.revokeObjectURL(imagePreview);
+        setImageFile(null);
+        setImagePreview(null);
+        setContentType('text');
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
     const handleDragOver = (e) => {
         e.preventDefault();
         setIsDragOver(true);
@@ -69,22 +105,46 @@ export default function PasteBox({ onItemCreated }) {
     const handleDrop = (e) => {
         e.preventDefault();
         setIsDragOver(false);
-        // Image handling would go here with S3 upload
-        toast('Image uploads coming soon!', { icon: '🖼️' });
+
+        const file = e.dataTransfer.files?.[0];
+        if (file && file.type.startsWith('image/')) {
+            selectImage(file);
+        } else {
+            toast.error('Only image files can be dropped here');
+        }
+    };
+
+    const handleFileSelect = (e) => {
+        const file = e.target.files?.[0];
+        if (file) selectImage(file);
     };
 
     const handleSubmit = async () => {
-        if (!text.trim()) return;
+        if (contentType === 'image') {
+            if (!imageFile) return;
+        } else {
+            if (!text.trim()) return;
+        }
+
         setLoading(true);
 
         try {
-            const item = await api.createItem({
-                content_type: contentType,
-                content_text: text,
-                expiry_at: getExpiryDate(expiry),
-            });
+            let item;
+
+            if (contentType === 'image' && imageFile) {
+                // Upload image via FormData
+                item = await api.uploadImage(imageFile, getExpiryDate(expiry));
+            } else {
+                item = await api.createItem({
+                    content_type: contentType,
+                    content_text: text,
+                    expiry_at: getExpiryDate(expiry),
+                });
+            }
+
             setText('');
             setExpiry('');
+            clearImage();
             setContentType('text');
             toast.success('Item saved!');
             if (onItemCreated) onItemCreated(item);
@@ -108,16 +168,24 @@ export default function PasteBox({ onItemCreated }) {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
         >
-            <textarea
-                ref={textareaRef}
-                className="paste-box-input"
-                placeholder="Paste or type something... (Ctrl+V to paste, Ctrl+Enter to save)"
-                value={text}
-                onChange={handleTextChange}
-                onPaste={handlePaste}
-                onKeyDown={handleKeyDown}
-                rows={3}
-            />
+            {imagePreview ? (
+                <div className="paste-box-image-preview">
+                    <img src={imagePreview} alt="Preview" />
+                    <button className="paste-box-image-remove" onClick={clearImage} title="Remove image">✕</button>
+                    <span className="paste-box-image-name">{imageFile?.name}</span>
+                </div>
+            ) : (
+                <textarea
+                    ref={textareaRef}
+                    className="paste-box-input"
+                    placeholder="Paste or type something... (Ctrl+V to paste, Ctrl+Enter to save) — or drop/paste an image"
+                    value={text}
+                    onChange={handleTextChange}
+                    onPaste={handlePaste}
+                    onKeyDown={handleKeyDown}
+                    rows={3}
+                />
+            )}
             <div className="paste-box-footer">
                 <div className="paste-box-meta">
                     <span className={`badge badge-${contentType}`}>{contentType}</span>
@@ -130,11 +198,25 @@ export default function PasteBox({ onItemCreated }) {
                             <option key={opt.value} value={opt.value}>{opt.label}</option>
                         ))}
                     </select>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml"
+                        onChange={handleFileSelect}
+                        style={{ display: 'none' }}
+                    />
+                    <button
+                        className="btn btn-ghost"
+                        onClick={() => fileInputRef.current?.click()}
+                        title="Upload image"
+                    >
+                        🖼️ Image
+                    </button>
                 </div>
                 <button
                     className="btn btn-primary"
                     onClick={handleSubmit}
-                    disabled={!text.trim() || loading}
+                    disabled={contentType === 'image' ? !imageFile : !text.trim() || loading}
                 >
                     {loading ? 'Saving...' : 'Save'}
                 </button>

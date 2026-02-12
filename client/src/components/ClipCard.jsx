@@ -24,10 +24,19 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
     const [fav, setFav] = useState(item.is_favorite);
     const api = useApi();
 
+    const isImage = item.content_type === 'image';
+
     const handleCopy = async () => {
         try {
-            await navigator.clipboard.writeText(item.content_text || '');
-            toast.success('Copied!');
+            if (isImage) {
+                // For images, copy the image URL
+                const url = `${window.location.origin}${api.getImageUrl(item.id)}`;
+                await navigator.clipboard.writeText(url);
+                toast.success('Image URL copied!');
+            } else {
+                await navigator.clipboard.writeText(item.content_text || '');
+                toast.success('Copied!');
+            }
         } catch {
             toast.error('Failed to copy');
         }
@@ -68,11 +77,24 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
             </div>
 
             <div className="clip-card-body">
-                <pre className="clip-card-content">{truncate(item.content_text)}</pre>
+                {isImage ? (
+                    <div className="clip-card-image">
+                        <img
+                            src={api.getImageUrl(item.id)}
+                            alt={item.content_image_name || 'Clipboard image'}
+                            loading="lazy"
+                        />
+                        {item.content_image_name && (
+                            <span className="clip-card-image-name">{item.content_image_name}</span>
+                        )}
+                    </div>
+                ) : (
+                    <pre className="clip-card-content">{truncate(item.content_text)}</pre>
+                )}
             </div>
 
             <div className="clip-card-actions">
-                <button className="btn-icon" onClick={handleCopy} title="Copy">
+                <button className="btn-icon" onClick={handleCopy} title={isImage ? 'Copy URL' : 'Copy'}>
                     📋
                 </button>
                 <button
@@ -82,9 +104,11 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
                 >
                     {fav ? '⭐' : '☆'}
                 </button>
-                <button className="btn-icon" onClick={() => onQR && onQR(item)} title="QR Code">
-                    📱
-                </button>
+                {!isImage && (
+                    <button className="btn-icon" onClick={() => onQR && onQR(item)} title="QR Code">
+                        📱
+                    </button>
+                )}
                 <button className="btn-icon btn-danger" onClick={handleDelete} title="Delete">
                     🗑️
                 </button>

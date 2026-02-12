@@ -131,5 +131,37 @@ export function useApi() {
         }),
 
         getQRContent: (token) => pub(`/qr/${token}`),
+
+        // Image upload — uses FormData (not JSON)
+        uploadImage: async (file, expiryAt) => {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('content_type', 'image');
+            if (expiryAt) formData.append('expiry_at', expiryAt);
+
+            const headers = {};
+            if (getToken) {
+                try {
+                    const token = await getToken();
+                    if (token) headers['Authorization'] = `Bearer ${token}`;
+                } catch { /* no auth */ }
+            }
+
+            const res = await fetch(`${API_BASE}/items`, {
+                method: 'POST',
+                headers, // No Content-Type — browser sets multipart boundary
+                body: formData,
+            });
+
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({}));
+                throw new Error(body.error || `Upload failed: ${res.status}`);
+            }
+
+            return res.json();
+        },
+
+        // Image URL helper
+        getImageUrl: (itemId) => `${API_BASE}/items/${itemId}/image`,
     };
 }
