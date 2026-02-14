@@ -21,6 +21,45 @@ function truncate(str, max = 200) {
     return str.length > max ? str.slice(0, max) + '...' : str;
 }
 
+// SVG icons
+const CopyIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+);
+
+const StarOutlineIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+);
+
+const StarFilledIcon = () => (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+);
+
+const QRIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="8" height="8" rx="1" />
+        <rect x="14" y="2" width="8" height="8" rx="1" />
+        <rect x="2" y="14" width="8" height="8" rx="1" />
+        <path d="M14 14h3v3h-3z" />
+        <path d="M19 14h3v3h-3z" />
+        <path d="M14 19h3v3h-3z" />
+        <path d="M19 19h3v3h-3z" />
+    </svg>
+);
+
+const TrashIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="3 6 5 6 21 6" />
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
+);
+
 export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
     const [fav, setFav] = useState(item.is_favorite);
     const api = useApi();
@@ -87,7 +126,9 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
                         <span className="badge badge-expiry">⏳ Expires {timeAgo(item.expiry_at)}</span>
                     )}
                     {item.share_token && (
-                        <span className="badge badge-shared">🔗</span>
+                        <span className="badge badge-shared">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
+                        </span>
                     )}
                 </div>
             </div>
@@ -111,22 +152,22 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
 
             <div className="clip-card-actions">
                 <button className="btn-icon" onClick={handleCopy} title={isImage ? 'Copy URL' : 'Copy'}>
-                    📋
+                    <CopyIcon />
                 </button>
                 <button
                     className={`btn-icon ${fav ? 'btn-icon--active' : ''}`}
                     onClick={handleFavorite}
                     title={fav ? 'Unfavorite' : 'Favorite'}
                 >
-                    {fav ? '⭐' : '☆'}
+                    {fav ? <StarFilledIcon /> : <StarOutlineIcon />}
                 </button>
                 {!isImage && (
                     <button className="btn-icon" onClick={handleQR} title="QR Code">
-                        📱
+                        <QRIcon />
                     </button>
                 )}
-                <button className="btn-icon btn-danger" onClick={handleDelete} title="Delete">
-                    🗑️
+                <button className="btn-icon btn-icon--danger" onClick={handleDelete} title="Delete">
+                    <TrashIcon />
                 </button>
             </div>
         </div>

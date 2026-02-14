@@ -11,10 +11,11 @@
 }
 
 .qr-modal-code {
-    background: var(--bg-card);
+    background: var(--bg-primary);
     padding: var(--spacing-xl);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
+    box-shadow: 0 0 30px rgba(232, 168, 73, 0.05);
 }
 
 .qr-modal-hint {
@@ -28,7 +29,7 @@
 }
 
 .qr-modal-preview pre {
-    font-family: 'SF Mono', monospace;
+    font-family: var(--font-mono);
     font-size: var(--font-size-xs);
     color: var(--text-muted);
     background: var(--bg-secondary);

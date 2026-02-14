@@ -38,7 +38,7 @@
         align-items: center;
         gap: var(--spacing-sm);
         padding: var(--spacing-md) var(--spacing-lg);
-        background: var(--bg-sidebar);
+        background: var(--bg-card);
         border-bottom: 1px solid var(--border);
         position: sticky;
         top: 0;
@@ -52,6 +52,8 @@
     .layout-header-title {
         font-weight: 700;
         font-size: var(--font-size-lg);
+        color: var(--accent);
+        letter-spacing: -0.01em;
     }
 
     .layout-content {

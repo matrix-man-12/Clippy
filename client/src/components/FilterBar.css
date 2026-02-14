@@ -18,20 +18,23 @@
     border: 1px solid var(--border);
     border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s;
 }
 
 .filter-pill:hover {
     background: var(--bg-hover);
     color: var(--text-primary);
+    border-color: rgba(232, 168, 73, 0.2);
 }
 
 .filter-pill--active {
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
     color: var(--text-inverse);
     border-color: var(--accent);
+    box-shadow: 0 0 12px rgba(232, 168, 73, 0.2);
+    transform: scale(1.03);
 }
 
 .filter-pill--active:hover {
-    background: var(--accent-hover);
+    background: linear-gradient(135deg, var(--accent-hover), var(--accent));
 }

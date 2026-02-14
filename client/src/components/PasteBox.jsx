@@ -23,6 +23,14 @@ function getExpiryDate(option) {
     return new Date(now.getTime() + ms[option]).toISOString();
 }
 
+const ImageIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <polyline points="21 15 16 10 5 21" />
+    </svg>
+);
+
 export default function PasteBox({ onItemCreated }) {
     const [text, setText] = useState('');
     const [expiry, setExpiry] = useState('');
@@ -168,58 +176,60 @@ export default function PasteBox({ onItemCreated }) {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
         >
-            {imagePreview ? (
-                <div className="paste-box-image-preview">
-                    <img src={imagePreview} alt="Preview" />
-                    <button className="paste-box-image-remove" onClick={clearImage} title="Remove image">✕</button>
-                    <span className="paste-box-image-name">{imageFile?.name}</span>
-                </div>
-            ) : (
-                <textarea
-                    ref={textareaRef}
-                    className="paste-box-input"
-                    placeholder="Paste or type something... (Ctrl+V to paste, Ctrl+Enter to save) — or drop/paste an image"
-                    value={text}
-                    onChange={handleTextChange}
-                    onPaste={handlePaste}
-                    onKeyDown={handleKeyDown}
-                    rows={3}
-                />
-            )}
-            <div className="paste-box-footer">
-                <div className="paste-box-meta">
-                    <span className={`badge badge-${contentType}`}>{contentType}</span>
-                    <select
-                        className="paste-box-expiry"
-                        value={expiry}
-                        onChange={(e) => setExpiry(e.target.value)}
-                    >
-                        {EXPIRY_OPTIONS.map(opt => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                    </select>
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml"
-                        onChange={handleFileSelect}
-                        style={{ display: 'none' }}
+            <div className="paste-box-inner">
+                {imagePreview ? (
+                    <div className="paste-box-image-preview">
+                        <img src={imagePreview} alt="Preview" />
+                        <button className="paste-box-image-remove" onClick={clearImage} title="Remove image">✕</button>
+                        <span className="paste-box-image-name">{imageFile?.name}</span>
+                    </div>
+                ) : (
+                    <textarea
+                        ref={textareaRef}
+                        className="paste-box-input"
+                        placeholder="Paste or type something... (Ctrl+V to paste, Ctrl+Enter to save) — or drop/paste an image"
+                        value={text}
+                        onChange={handleTextChange}
+                        onPaste={handlePaste}
+                        onKeyDown={handleKeyDown}
+                        rows={3}
                     />
+                )}
+                <div className="paste-box-footer">
+                    <div className="paste-box-meta">
+                        <span className={`badge badge-${contentType}`}>{contentType}</span>
+                        <select
+                            className="paste-box-expiry"
+                            value={expiry}
+                            onChange={(e) => setExpiry(e.target.value)}
+                        >
+                            {EXPIRY_OPTIONS.map(opt => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                        </select>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml"
+                            onChange={handleFileSelect}
+                            style={{ display: 'none' }}
+                        />
+                        <button
+                            className="btn btn-ghost"
+                            onClick={() => fileInputRef.current?.click()}
+                            title="Upload image"
+                        >
+                            <ImageIcon /> Image
+                        </button>
+                    </div>
                     <button
-                        className="btn btn-ghost"
-                        onClick={() => fileInputRef.current?.click()}
-                        title="Upload image"
+                        className="btn btn-primary"
+                        onClick={handleSubmit}
+                        disabled={contentType === 'image' ? !imageFile : !text.trim() || loading}
                     >
-                        🖼️ Image
+                        {loading ? 'Saving...' : 'Save'}
                     </button>
                 </div>
-                <button
-                    className="btn btn-primary"
-                    onClick={handleSubmit}
-                    disabled={contentType === 'image' ? !imageFile : !text.trim() || loading}
-                >
-                    {loading ? 'Saving...' : 'Save'}
-                </button>
             </div>
         </div>
     );

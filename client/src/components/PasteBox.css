@@ -1,15 +1,30 @@
 .paste-box {
-    background: var(--bg-card);
-    border: 2px dashed var(--border);
+    position: relative;
     border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
+    padding: 2px;
     margin-bottom: var(--spacing-xl);
-    transition: border-color 0.2s, background 0.2s;
+    background: linear-gradient(135deg, var(--border), rgba(232, 168, 73, 0.2), var(--border), rgba(232, 168, 73, 0.1));
+    background-size: 300% 300%;
+    animation: shimmer 6s ease infinite;
+    transition: all 0.3s ease;
+}
+
+.paste-box:focus-within {
+    background: linear-gradient(135deg, rgba(232, 168, 73, 0.3), var(--border), rgba(232, 168, 73, 0.4), var(--border));
+    background-size: 300% 300%;
+    box-shadow: 0 0 30px rgba(232, 168, 73, 0.08);
 }
 
 .paste-box--drag {
-    border-color: var(--accent);
-    background: var(--accent-light);
+    background: linear-gradient(135deg, var(--accent), rgba(232, 168, 73, 0.4), var(--accent));
+    background-size: 300% 300%;
+    box-shadow: 0 0 40px rgba(232, 168, 73, 0.15);
+}
+
+.paste-box-inner {
+    background: var(--bg-card);
+    border-radius: calc(var(--radius-lg) - 2px);
+    padding: var(--spacing-lg);
 }
 
 .paste-box-input {
@@ -49,7 +64,7 @@
     font-family: var(--font-family);
     font-size: var(--font-size-xs);
     color: var(--text-secondary);
-    background: var(--bg-primary);
+    background: var(--bg-input);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -57,7 +72,7 @@
 }
 
 .paste-box-expiry:focus {
-    border-color: var(--border-focus);
+    border-color: var(--accent);
 }
 
 .paste-box-image-preview {

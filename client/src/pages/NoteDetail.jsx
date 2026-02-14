@@ -188,8 +188,8 @@ export default function NoteDetail() {
                                 value={qrContent}
                                 size={260}
                                 level="M"
-                                bgColor="#FDF6EC"
-                                fgColor="#3D2C1E"
+                                bgColor="#161A23"
+                                fgColor="#E8A849"
                             />
                             <p className="note-detail-qr-hint">Scan to read this note's content directly</p>
                         </>

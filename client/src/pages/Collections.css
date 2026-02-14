@@ -29,12 +29,13 @@
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
 }
 
 .collection-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg), 0 0 20px rgba(232, 168, 73, 0.06);
+    border-color: rgba(232, 168, 73, 0.2);
 }
 
 .collection-card-name {

@@ -10,7 +10,11 @@ export default function QRModal({ item, onClose }) {
             <div className="modal-content qr-modal" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
                     <h3>QR Code</h3>
-                    <button className="btn-icon" onClick={onClose}>✕</button>
+                    <button className="btn-icon" onClick={onClose}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" width="18" height="18">
+                            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
                 </div>
 
                 <div className="qr-modal-body">
@@ -27,8 +31,8 @@ export default function QRModal({ item, onClose }) {
                                     value={content}
                                     size={220}
                                     level="M"
-                                    bgColor="#FDF6EC"
-                                    fgColor="#3D2C1E"
+                                    bgColor="#161A23"
+                                    fgColor="#E8A849"
                                 />
                             </div>
                             <p className="qr-modal-hint">

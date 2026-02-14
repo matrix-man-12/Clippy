@@ -33,8 +33,8 @@
 }
 
 .btn-danger-text:hover {
-    background: var(--danger);
-    color: white;
+    background: rgba(224, 82, 82, 0.1);
+    color: var(--danger);
 }
 
 .btn-sm {
@@ -63,21 +63,22 @@
     gap: var(--spacing-sm);
     padding: var(--spacing-sm) var(--spacing-md);
     background: var(--bg-card);
-    border: 1px solid var(--accent);
+    border: 1px solid rgba(232, 168, 73, 0.25);
     border-radius: var(--radius-md);
     margin-bottom: var(--spacing-lg);
     flex-wrap: wrap;
+    box-shadow: 0 0 20px rgba(232, 168, 73, 0.04);
 }
 
 .note-detail-share-label {
     font-size: var(--font-size-sm);
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--accent);
     white-space: nowrap;
 }
 
 .note-detail-share-url {
-    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-family: var(--font-mono);
     font-size: var(--font-size-xs);
     color: var(--accent);
     background: var(--bg-primary);
@@ -128,7 +129,7 @@
 }
 
 .note-detail-text {
-    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-family: var(--font-mono);
     font-size: var(--font-size-base);
     color: var(--text-primary);
     padding: var(--spacing-lg);

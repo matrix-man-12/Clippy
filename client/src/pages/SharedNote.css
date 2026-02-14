@@ -11,6 +11,7 @@
     width: 100%;
     max-width: 700px;
     margin-top: 40px;
+    animation: slideUp 0.5s ease;
 }
 
 /* Header */
@@ -22,6 +23,7 @@
     font-size: var(--font-size-2xl);
     color: var(--text-primary);
     margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.02em;
 }
 
 .shared-note-meta {
@@ -45,7 +47,7 @@
 }
 
 .shared-note-text {
-    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-family: var(--font-mono);
     font-size: var(--font-size-base);
     color: var(--text-primary);
     padding: var(--spacing-lg);

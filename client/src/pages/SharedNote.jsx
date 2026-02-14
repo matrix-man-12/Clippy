@@ -88,7 +88,7 @@ export default function SharedNote() {
         <div className="shared-note-page">
             <div className="shared-note-container">
                 <div className="shared-note-header">
-                    <h1 className="shared-note-title">📎 Shared Note</h1>
+                    <h1 className="shared-note-title">Shared Note</h1>
                     <div className="shared-note-meta">
                         <span className={`badge badge-${item.content_type}`}>{item.content_type}</span>
                         <span className="shared-note-date">{formatDate(item.created_at)}</span>

@@ -5,11 +5,25 @@
     justify-content: center;
     background: var(--bg-primary);
     padding: var(--spacing-xl);
+    position: relative;
+}
+
+.auth-page::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(232, 168, 73, 0.06), transparent 70%);
+    pointer-events: none;
 }
 
 .auth-container {
     width: 100%;
     max-width: 420px;
+    position: relative;
 }
 
 .auth-header {
