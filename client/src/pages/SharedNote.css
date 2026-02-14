@@ -1,0 +1,122 @@
+.shared-note-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--bg-primary);
+    padding: var(--spacing-lg);
+}
+
+.shared-note-container {
+    width: 100%;
+    max-width: 700px;
+    margin-top: 40px;
+}
+
+/* Header */
+.shared-note-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.shared-note-title {
+    font-size: var(--font-size-2xl);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.shared-note-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.shared-note-date {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* Content */
+.shared-note-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+}
+
+.shared-note-text {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    padding: var(--spacing-lg);
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+}
+
+.shared-note-copy {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+}
+
+/* Image */
+.shared-note-image {
+    text-align: center;
+    padding: var(--spacing-lg);
+}
+
+.shared-note-image img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: var(--radius-md);
+    object-fit: contain;
+}
+
+.shared-note-image-name {
+    display: block;
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* Error */
+.shared-note-error {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--text-secondary);
+}
+
+.shared-note-error h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Footer */
+.shared-note-footer {
+    margin-top: auto;
+    padding-top: var(--spacing-2xl);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.shared-note-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.shared-note-footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .shared-note-container {
+        margin-top: var(--spacing-lg);
+    }
+
+    .shared-note-title {
+        font-size: var(--font-size-xl);
+    }
+}

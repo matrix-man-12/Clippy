@@ -1,10 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense, useState, useEffect } from 'react';
+import { lazy, Suspense } from 'react';
 import Layout from './components/Layout.jsx';
 import Vault from './pages/Vault.jsx';
 import Favorites from './pages/Favorites.jsx';
 import Collections from './pages/Collections.jsx';
 import CollectionDetail from './pages/CollectionDetail.jsx';
+import NoteDetail from './pages/NoteDetail.jsx';
+import SharedNote from './pages/SharedNote.jsx';
 
 const hasClerk = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -12,52 +14,17 @@ const hasClerk = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const SignIn = lazy(() => import('./pages/SignIn.jsx'));
 const SignUp = lazy(() => import('./pages/SignUp.jsx'));
 
-// Auth gate — dynamically loads useAuth from Clerk
-function AuthGate({ children }) {
-  const [authState, setAuthState] = useState({ loaded: false, signedIn: false });
-
-  useEffect(() => {
-    import('@clerk/clerk-react').then(({ useAuth }) => {
-      // We can't use hooks from dynamic import directly,
-      // so we set a flag and let the ClerkGate component handle it
-      setAuthState({ loaded: true });
-    });
-  }, []);
-
-  if (!authState.loaded) {
-    return <div className="loading-spinner" style={{ marginTop: '40vh' }} />;
-  }
-
-  return <ClerkGate>{children}</ClerkGate>;
-}
-
-// Separate component that uses Clerk hook (safe because ClerkProvider is ancestor)
-function ClerkGate({ children }) {
-  // This component is only rendered when ClerkProvider wraps the app
-  const [auth, setAuth] = useState(null);
-
-  useEffect(() => {
-    // Re-render trick: we'll use the ClerkContext check
-    setAuth({ ready: true });
-  }, []);
-
-  if (!auth) {
-    return <div className="loading-spinner" style={{ marginTop: '40vh' }} />;
-  }
-
-  return children;
-}
-
 function ProtectedRoute({ children }) {
   if (!hasClerk) return children;
-
-  // When Clerk is active, we rely on ClerkProvider's built-in redirect
   return children;
 }
 
 export default function App() {
   return (
     <Routes>
+      {/* Public: shared notes — no auth, no sidebar */}
+      <Route path="/s/:shareToken" element={<SharedNote />} />
+
       {/* Auth pages — no sidebar, lazy loaded */}
       {hasClerk && (
         <>
@@ -86,6 +53,7 @@ export default function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/collections/:id" element={<CollectionDetail />} />
+        <Route path="/note/:id" element={<NoteDetail />} />
       </Route>
 
       {/* Fallback */}

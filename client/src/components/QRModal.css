@@ -38,3 +38,14 @@
     white-space: pre-wrap;
     word-break: break-word;
 }
+
+.qr-modal-warning {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: var(--spacing-md);
+}
+
+.qr-modal-warning p {
+    margin: var(--spacing-xs) 0;
+    font-size: var(--font-size-sm);
+}

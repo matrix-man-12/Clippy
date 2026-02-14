@@ -6,6 +6,7 @@ import { clerkAuth, requireAuth } from './middleware/auth.js';
 import itemsRouter from './routes/items.js';
 import collectionsRouter from './routes/collections.js';
 import qrRouter from './routes/qr.js';
+import shareRouter from './routes/share.js';
 import { startExpiryWorker } from './workers/expiry.js';
 
 dotenv.config();
@@ -48,6 +49,9 @@ app.get('/api/qr/:token', (req, res, next) => {
     req.url = `/${req.params.token}`;
     qrRouter(req, res, next);
 });
+
+// Shared notes — public (no auth)
+app.use('/api/share', shareRouter);
 
 // ---------------------
 // Protected Routes

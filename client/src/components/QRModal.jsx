@@ -1,32 +1,9 @@
-import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { useApi } from '../api.js';
-import toast from 'react-hot-toast';
 import './QRModal.css';
 
 export default function QRModal({ item, onClose }) {
-    const [qrData, setQrData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const api = useApi();
-
-    const generateQR = async () => {
-        if (qrData) return;
-        setLoading(true);
-        try {
-            const result = await api.generateQR(item.content_text);
-            const fullUrl = `${window.location.origin}/api/qr/${result.token}`;
-            setQrData({ ...result, fullUrl });
-        } catch (err) {
-            toast.error(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Auto-generate on mount
-    if (!qrData && !loading) {
-        generateQR();
-    }
+    const content = item.content_text || '';
+    const tooLong = content.length > 2000;
 
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -37,12 +14,17 @@ export default function QRModal({ item, onClose }) {
                 </div>
 
                 <div className="qr-modal-body">
-                    {loading && <div className="loading-spinner" />}
-                    {qrData && (
+                    {tooLong ? (
+                        <div className="qr-modal-warning">
+                            <p>⚠️ Content is too long for QR ({content.length} chars).</p>
+                            <p>QR codes work best under ~2000 characters.</p>
+                            <p>Use the <strong>Share</strong> button instead to get a link.</p>
+                        </div>
+                    ) : (
                         <>
                             <div className="qr-modal-code">
                                 <QRCodeSVG
-                                    value={qrData.fullUrl}
+                                    value={content}
                                     size={220}
                                     level="M"
                                     bgColor="#FDF6EC"
@@ -50,10 +32,10 @@ export default function QRModal({ item, onClose }) {
                                 />
                             </div>
                             <p className="qr-modal-hint">
-                                Scan to transfer this text. Expires in 10 minutes.
+                                Scan to read this note's content directly.
                             </p>
                             <div className="qr-modal-preview">
-                                <pre>{item.content_text?.slice(0, 100)}{item.content_text?.length > 100 ? '...' : ''}</pre>
+                                <pre>{content.slice(0, 100)}{content.length > 100 ? '...' : ''}</pre>
                             </div>
                         </>
                     )}

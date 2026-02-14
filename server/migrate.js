@@ -6,6 +6,17 @@ async function migrate() {
   try {
     await client.query('BEGIN');
 
+    // Drop existing tables (reverse dependency order)
+    console.log('Dropping existing tables...');
+    await client.query(`
+      DROP TABLE IF EXISTS qr_tokens CASCADE;
+      DROP TABLE IF EXISTS collection_items CASCADE;
+      DROP TABLE IF EXISTS collection_members CASCADE;
+      DROP TABLE IF EXISTS shared_collections CASCADE;
+      DROP TABLE IF EXISTS clipboard_items CASCADE;
+      DROP TABLE IF EXISTS users CASCADE;
+    `);
+
     // Enable uuid extension
     await client.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
 
@@ -30,6 +41,7 @@ async function migrate() {
         content_image BYTEA,
         content_image_mime VARCHAR(50),
         content_image_name VARCHAR(255),
+        share_token VARCHAR(32) UNIQUE,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
         expiry_at TIMESTAMP WITH TIME ZONE,

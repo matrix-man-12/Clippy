@@ -27,6 +27,12 @@ async function migrateImages() {
             ADD COLUMN IF NOT EXISTS content_image_name VARCHAR(255);
         `);
 
+        // Add share_token for public sharing URLs
+        await client.query(`
+            ALTER TABLE clipboard_items
+            ADD COLUMN IF NOT EXISTS share_token VARCHAR(32) UNIQUE;
+        `);
+
         await client.query('COMMIT');
         console.log('Image migration completed successfully.');
     } catch (err) {

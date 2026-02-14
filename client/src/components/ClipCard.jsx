@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useApi } from '../api.js';
 import toast from 'react-hot-toast';
 import './ClipCard.css';
@@ -23,13 +24,14 @@ function truncate(str, max = 200) {
 export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
     const [fav, setFav] = useState(item.is_favorite);
     const api = useApi();
+    const navigate = useNavigate();
 
     const isImage = item.content_type === 'image';
 
-    const handleCopy = async () => {
+    const handleCopy = async (e) => {
+        e.stopPropagation();
         try {
             if (isImage) {
-                // For images, copy the image URL
                 const url = `${window.location.origin}${api.getImageUrl(item.id)}`;
                 await navigator.clipboard.writeText(url);
                 toast.success('Image URL copied!');
@@ -42,19 +44,21 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
         }
     };
 
-    const handleFavorite = async () => {
+    const handleFavorite = async (e) => {
+        e.stopPropagation();
         const newVal = !fav;
-        setFav(newVal); // optimistic
+        setFav(newVal);
         try {
             await api.updateItem(item.id, { is_favorite: newVal });
             if (onUpdate) onUpdate({ ...item, is_favorite: newVal });
         } catch {
-            setFav(!newVal); // revert
+            setFav(!newVal);
             toast.error('Failed to update');
         }
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (e) => {
+        e.stopPropagation();
         try {
             await api.deleteItem(item.id);
             toast.success('Deleted');
@@ -64,14 +68,26 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
         }
     };
 
+    const handleQR = (e) => {
+        e.stopPropagation();
+        if (onQR) onQR(item);
+    };
+
+    const handleClick = () => {
+        navigate(`/note/${item.id}`);
+    };
+
     return (
-        <div className="clip-card card">
+        <div className="clip-card card" onClick={handleClick} style={{ cursor: 'pointer' }}>
             <div className="clip-card-header">
                 <div className="clip-card-meta">
                     <span className={`badge badge-${item.content_type}`}>{item.content_type}</span>
                     <span className="clip-card-time">{timeAgo(item.created_at)}</span>
                     {item.expiry_at && (
                         <span className="badge badge-expiry">⏳ Expires {timeAgo(item.expiry_at)}</span>
+                    )}
+                    {item.share_token && (
+                        <span className="badge badge-shared">🔗</span>
                     )}
                 </div>
             </div>
@@ -105,7 +121,7 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
                     {fav ? '⭐' : '☆'}
                 </button>
                 {!isImage && (
-                    <button className="btn-icon" onClick={() => onQR && onQR(item)} title="QR Code">
+                    <button className="btn-icon" onClick={handleQR} title="QR Code">
                         📱
                     </button>
                 )}

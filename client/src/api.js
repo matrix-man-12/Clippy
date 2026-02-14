@@ -163,5 +163,19 @@ export function useApi() {
 
         // Image URL helper
         getImageUrl: (itemId) => `${API_BASE}/items/${itemId}/image`,
+
+        // Sharing
+        shareItem: (id) => authed(`/items/${id}/share`, { method: 'POST' }),
+
+        unshareItem: (id) => authed(`/items/${id}/share`, { method: 'DELETE' }),
+
+        getSharedNote: async (token) => {
+            const res = await fetch(`${API_BASE}/share/${token}`);
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({}));
+                throw new Error(body.error || 'Not found');
+            }
+            return res.json();
+        },
     };
 }

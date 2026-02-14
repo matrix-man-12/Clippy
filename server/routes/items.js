@@ -126,7 +126,7 @@ router.get('/', async (req, res) => {
 
         // Get items (exclude bytea content_image from list for performance)
         const result = await pool.query(
-            `SELECT id, owner_id, content_type, content_text, content_image_mime, content_image_name,
+            `SELECT id, owner_id, content_type, content_text, content_image_mime, content_image_name, share_token,
                     created_at, updated_at, expiry_at, is_favorite, deleted_at
              FROM clipboard_items 
              WHERE ${whereClause} 
@@ -154,7 +154,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const result = await pool.query(
-            `SELECT id, owner_id, content_type, content_text, content_image_mime, content_image_name,
+            `SELECT id, owner_id, content_type, content_text, content_image_mime, content_image_name, share_token,
                     created_at, updated_at, expiry_at, is_favorite, deleted_at
              FROM clipboard_items WHERE id = $1 AND owner_id = $2 AND deleted_at IS NULL`,
             [req.params.id, req.userId]
@@ -267,6 +267,64 @@ router.delete('/:id', async (req, res) => {
     } catch (err) {
         console.error('Error deleting item:', err);
         res.status(500).json({ error: 'Failed to delete item' });
+    }
+});
+
+// POST /api/items/:id/share — Generate or return a share token
+router.post('/:id/share', async (req, res) => {
+    try {
+        // Check if item already has a share_token
+        const existing = await pool.query(
+            `SELECT id, share_token FROM clipboard_items 
+             WHERE id = $1 AND owner_id = $2 AND deleted_at IS NULL`,
+            [req.params.id, req.userId]
+        );
+
+        if (existing.rows.length === 0) {
+            return res.status(404).json({ error: 'Item not found' });
+        }
+
+        let shareToken = existing.rows[0].share_token;
+
+        if (!shareToken) {
+            // Generate a new token
+            const crypto = await import('crypto');
+            shareToken = crypto.randomBytes(16).toString('hex');
+
+            await pool.query(
+                `UPDATE clipboard_items SET share_token = $1 WHERE id = $2`,
+                [shareToken, req.params.id]
+            );
+        }
+
+        res.json({
+            share_token: shareToken,
+            share_url: `/s/${shareToken}`,
+        });
+    } catch (err) {
+        console.error('Error sharing item:', err);
+        res.status(500).json({ error: 'Failed to generate share link' });
+    }
+});
+
+// DELETE /api/items/:id/share — Remove share token (unshare)
+router.delete('/:id/share', async (req, res) => {
+    try {
+        const result = await pool.query(
+            `UPDATE clipboard_items SET share_token = NULL 
+             WHERE id = $1 AND owner_id = $2 AND deleted_at IS NULL
+             RETURNING id`,
+            [req.params.id, req.userId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Item not found' });
+        }
+
+        res.json({ message: 'Share link removed' });
+    } catch (err) {
+        console.error('Error unsharing item:', err);
+        res.status(500).json({ error: 'Failed to remove share link' });
     }
 });
 
