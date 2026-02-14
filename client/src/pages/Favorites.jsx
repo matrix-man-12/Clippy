@@ -39,7 +39,7 @@ export default function Favorites() {
 
     return (
         <div className="page-container">
-            <h2 className="page-title">⭐ Favorites</h2>
+            <h2 className="page-title">Favorites</h2>
 
             {loading ? (
                 <div className="loading-spinner" />
@@ -49,15 +49,17 @@ export default function Favorites() {
                     <span>Star items in your vault to see them here</span>
                 </div>
             ) : (
-                items.map(item => (
-                    <ClipCard
-                        key={item.id}
-                        item={item}
-                        onDelete={handleDelete}
-                        onUpdate={handleUpdate}
-                        onQR={setQrItem}
-                    />
-                ))
+                <div className="clips-grid">
+                    {items.map(item => (
+                        <ClipCard
+                            key={item.id}
+                            item={item}
+                            onDelete={handleDelete}
+                            onUpdate={handleUpdate}
+                            onQR={setQrItem}
+                        />
+                    ))}
+                </div>
             )}
 
             {qrItem && <QRModal item={qrItem} onClose={() => setQrItem(null)} />}

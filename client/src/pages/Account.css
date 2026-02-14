@@ -1,0 +1,52 @@
+.account-page {
+    width: 1200px;
+}
+
+.account-profile-wrapper {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+/* Clerk overrides for dark theme */
+.account-profile-wrapper .cl-rootBox {
+    width: 100% !important;
+}
+
+.account-profile-wrapper .cl-card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-lg) !important;
+}
+
+.account-dev-mode {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.account-dev-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.account-dev-mode h3 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.account-dev-mode p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.account-dev-mode code {
+    font-family: var(--font-mono);
+    background: var(--bg-primary);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    color: var(--accent);
+}

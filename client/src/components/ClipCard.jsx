@@ -16,9 +16,9 @@ function timeAgo(dateStr) {
     return new Date(dateStr).toLocaleDateString();
 }
 
-function truncate(str, max = 200) {
+function truncate(str, max = 120) {
     if (!str) return '';
-    return str.length > max ? str.slice(0, max) + '...' : str;
+    return str.length > max ? str.slice(0, max) + '…' : str;
 }
 
 // SVG icons
@@ -26,6 +26,12 @@ const CopyIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+);
+
+const CheckIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12" />
     </svg>
 );
 
@@ -41,15 +47,11 @@ const StarFilledIcon = () => (
     </svg>
 );
 
-const QRIcon = () => (
+const DownloadIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="8" height="8" rx="1" />
-        <rect x="14" y="2" width="8" height="8" rx="1" />
-        <rect x="2" y="14" width="8" height="8" rx="1" />
-        <path d="M14 14h3v3h-3z" />
-        <path d="M19 14h3v3h-3z" />
-        <path d="M14 19h3v3h-3z" />
-        <path d="M19 19h3v3h-3z" />
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
     </svg>
 );
 
@@ -62,6 +64,8 @@ const TrashIcon = () => (
 
 export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
     const [fav, setFav] = useState(item.is_favorite);
+    const [copied, setCopied] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const api = useApi();
     const navigate = useNavigate();
 
@@ -73,11 +77,11 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
             if (isImage) {
                 const url = `${window.location.origin}${api.getImageUrl(item.id)}`;
                 await navigator.clipboard.writeText(url);
-                toast.success('Image URL copied!');
             } else {
                 await navigator.clipboard.writeText(item.content_text || '');
-                toast.success('Copied!');
             }
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1500);
         } catch {
             toast.error('Failed to copy');
         }
@@ -96,8 +100,14 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
         }
     };
 
-    const handleDelete = async (e) => {
+    const handleDeleteClick = (e) => {
         e.stopPropagation();
+        setShowDeleteConfirm(true);
+    };
+
+    const handleDeleteConfirm = async (e) => {
+        e.stopPropagation();
+        setShowDeleteConfirm(false);
         try {
             await api.deleteItem(item.id);
             toast.success('Deleted');
@@ -107,69 +117,91 @@ export default function ClipCard({ item, onUpdate, onDelete, onQR }) {
         }
     };
 
-    const handleQR = (e) => {
+    const handleDeleteCancel = (e) => {
         e.stopPropagation();
-        if (onQR) onQR(item);
+        setShowDeleteConfirm(false);
+    };
+
+    const handleDownload = async (e) => {
+        e.stopPropagation();
+        try {
+            const url = api.getImageUrl(item.id);
+            const res = await fetch(url);
+            const blob = await res.blob();
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = item.content_image_name || `clippy-image-${item.id}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+        } catch {
+            toast.error('Download failed');
+        }
     };
 
     const handleClick = () => {
+        if (showDeleteConfirm) return;
         navigate(`/note/${item.id}`);
     };
 
     return (
-        <div className="clip-card card" onClick={handleClick} style={{ cursor: 'pointer' }}>
-            <div className="clip-card-header">
+        <div className="clip-card" onClick={handleClick}>
+            {/* Preview area — fixed height */}
+            <div className="clip-card-preview">
+                {isImage ? (
+                    <img
+                        className="clip-card-thumb"
+                        src={api.getImageUrl(item.id)}
+                        alt={item.content_image_name || 'Image'}
+                        loading="lazy"
+                    />
+                ) : (
+                    <pre className="clip-card-text">{truncate(item.content_text, 120)}</pre>
+                )}
+            </div>
+
+            {/* Footer */}
+            <div className="clip-card-footer">
                 <div className="clip-card-meta">
-                    <span className={`badge badge-${item.content_type}`}>{item.content_type}</span>
                     <span className="clip-card-time">{timeAgo(item.created_at)}</span>
-                    {item.expiry_at && (
-                        <span className="badge badge-expiry">⏳ Expires {timeAgo(item.expiry_at)}</span>
+                </div>
+                <div className="clip-card-actions">
+                    <button
+                        className={`btn-icon btn-icon-sm ${copied ? 'btn-icon--copied' : ''}`}
+                        onClick={handleCopy}
+                        title={copied ? 'Copied!' : 'Copy'}
+                    >
+                        {copied ? <CheckIcon /> : <CopyIcon />}
+                    </button>
+                    <button
+                        className={`btn-icon btn-icon-sm ${fav ? 'btn-icon--active' : ''}`}
+                        onClick={handleFavorite}
+                        title={fav ? 'Unfavorite' : 'Favorite'}
+                    >
+                        {fav ? <StarFilledIcon /> : <StarOutlineIcon />}
+                    </button>
+                    {isImage && (
+                        <button className="btn-icon btn-icon-sm" onClick={handleDownload} title="Download">
+                            <DownloadIcon />
+                        </button>
                     )}
-                    {item.share_token && (
-                        <span className="badge badge-shared">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
-                        </span>
-                    )}
+                    <button className="btn-icon btn-icon-sm btn-icon--danger" onClick={handleDeleteClick} title="Delete">
+                        <TrashIcon />
+                    </button>
                 </div>
             </div>
 
-            <div className="clip-card-body">
-                {isImage ? (
-                    <div className="clip-card-image">
-                        <img
-                            src={api.getImageUrl(item.id)}
-                            alt={item.content_image_name || 'Clipboard image'}
-                            loading="lazy"
-                        />
-                        {item.content_image_name && (
-                            <span className="clip-card-image-name">{item.content_image_name}</span>
-                        )}
+            {/* Delete confirmation overlay */}
+            {showDeleteConfirm && (
+                <div className="clip-card-delete-confirm" onClick={(e) => e.stopPropagation()}>
+                    <p>Delete this note?</p>
+                    <div className="clip-card-delete-actions">
+                        <button className="btn btn-ghost btn-sm" onClick={handleDeleteCancel}>Cancel</button>
+                        <button className="btn btn-sm clip-card-delete-btn" onClick={handleDeleteConfirm}>Delete</button>
                     </div>
-                ) : (
-                    <pre className="clip-card-content">{truncate(item.content_text)}</pre>
-                )}
-            </div>
-
-            <div className="clip-card-actions">
-                <button className="btn-icon" onClick={handleCopy} title={isImage ? 'Copy URL' : 'Copy'}>
-                    <CopyIcon />
-                </button>
-                <button
-                    className={`btn-icon ${fav ? 'btn-icon--active' : ''}`}
-                    onClick={handleFavorite}
-                    title={fav ? 'Unfavorite' : 'Favorite'}
-                >
-                    {fav ? <StarFilledIcon /> : <StarOutlineIcon />}
-                </button>
-                {!isImage && (
-                    <button className="btn-icon" onClick={handleQR} title="QR Code">
-                        <QRIcon />
-                    </button>
-                )}
-                <button className="btn-icon btn-icon--danger" onClick={handleDelete} title="Delete">
-                    <TrashIcon />
-                </button>
-            </div>
+                </div>
+            )}
         </div>
     );
 }

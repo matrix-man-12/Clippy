@@ -15,10 +15,17 @@ async function mount() {
         position="bottom-right"
         toastOptions={{
           style: {
-            background: '#3D2C1E',
-            color: '#FDF6EC',
-            borderRadius: '8px',
-            fontFamily: 'Inter, sans-serif',
+            background: '#161A23',
+            color: '#E4E2DE',
+            borderRadius: '10px',
+            border: '1px solid #252A36',
+            fontFamily: 'Outfit, sans-serif',
+          },
+          success: {
+            iconTheme: {
+              primary: '#E8A849',
+              secondary: '#161A23',
+            },
           },
         }}
       />

@@ -65,15 +65,17 @@ export default function Vault() {
                 </div>
             ) : (
                 <>
-                    {items.map(item => (
-                        <ClipCard
-                            key={item.id}
-                            item={item}
-                            onDelete={handleDelete}
-                            onUpdate={handleUpdate}
-                            onQR={setQrItem}
-                        />
-                    ))}
+                    <div className="clips-grid">
+                        {items.map(item => (
+                            <ClipCard
+                                key={item.id}
+                                item={item}
+                                onDelete={handleDelete}
+                                onUpdate={handleUpdate}
+                                onQR={setQrItem}
+                            />
+                        ))}
+                    </div>
 
                     {totalPages > 1 && (
                         <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '1rem' }}>

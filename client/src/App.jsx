@@ -7,6 +7,7 @@ import Collections from './pages/Collections.jsx';
 import CollectionDetail from './pages/CollectionDetail.jsx';
 import NoteDetail from './pages/NoteDetail.jsx';
 import SharedNote from './pages/SharedNote.jsx';
+import Account from './pages/Account.jsx';
 
 const hasClerk = !!import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="/collections" element={<Collections />} />
         <Route path="/collections/:id" element={<CollectionDetail />} />
         <Route path="/note/:id" element={<NoteDetail />} />
+        <Route path="/account" element={<Account />} />
       </Route>
 
       {/* Fallback */}

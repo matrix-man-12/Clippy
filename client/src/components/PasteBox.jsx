@@ -197,16 +197,6 @@ export default function PasteBox({ onItemCreated }) {
                 )}
                 <div className="paste-box-footer">
                     <div className="paste-box-meta">
-                        <span className={`badge badge-${contentType}`}>{contentType}</span>
-                        <select
-                            className="paste-box-expiry"
-                            value={expiry}
-                            onChange={(e) => setExpiry(e.target.value)}
-                        >
-                            {EXPIRY_OPTIONS.map(opt => (
-                                <option key={opt.value} value={opt.value}>{opt.label}</option>
-                            ))}
-                        </select>
                         <input
                             ref={fileInputRef}
                             type="file"
@@ -221,6 +211,15 @@ export default function PasteBox({ onItemCreated }) {
                         >
                             <ImageIcon /> Image
                         </button>
+                        <select
+                            className="paste-box-expiry"
+                            value={expiry}
+                            onChange={(e) => setExpiry(e.target.value)}
+                        >
+                            {EXPIRY_OPTIONS.map(opt => (
+                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                        </select>
                     </div>
                     <button
                         className="btn btn-primary"
