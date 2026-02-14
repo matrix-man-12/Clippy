@@ -7,29 +7,35 @@ import './index.css';
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
+import { ThemeProvider } from './context/ThemeContext.jsx';
+
+// ... (imports)
+
 async function mount() {
   const app = (
-    <BrowserRouter>
-      <App />
-      <Toaster
-        position="bottom-right"
-        toastOptions={{
-          style: {
-            background: '#161A23',
-            color: '#E4E2DE',
-            borderRadius: '10px',
-            border: '1px solid #252A36',
-            fontFamily: 'Outfit, sans-serif',
-          },
-          success: {
-            iconTheme: {
-              primary: '#E8A849',
-              secondary: '#161A23',
+    <ThemeProvider>
+      <BrowserRouter>
+        <App />
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: '#161A23',
+              color: '#E4E2DE',
+              borderRadius: '10px',
+              border: '1px solid #252A36',
+              fontFamily: 'Outfit, sans-serif',
             },
-          },
-        }}
-      />
-    </BrowserRouter>
+            success: {
+              iconTheme: {
+                primary: '#E8A849',
+                secondary: '#161A23',
+              },
+            },
+          }}
+        />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 
   let content;
