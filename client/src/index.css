@@ -4,38 +4,38 @@
    =========================== */
 
 :root {
-    /* Dark Theme (Default) */
-    --bg-primary: #0D0F14;
-    --bg-secondary: #121620;
-    --bg-card: #161A23;
-    --bg-sidebar: rgba(22, 26, 35, 0.85);
-    --bg-input: #1A1F2B;
-    --bg-hover: #1E2330;
+    /* Subtle Dark Theme (Default) - Green/Slate based */
+    --bg-primary: #112111;
+    --bg-secondary: #0d1a0d;
+    --bg-card: #162616;
+    --bg-sidebar: #112111;
+    --bg-input: #0d1a0d;
+    --bg-hover: #1a2b1a;
 
-    --text-primary: #E4E2DE;
-    --text-secondary: #9B978F;
-    --text-muted: #65625C;
-    --text-inverse: #0D0F14;
+    --text-primary: #f6f8f6;
+    --text-secondary: #a0bba0;
+    --text-muted: #6e8e6e;
+    --text-inverse: #112111;
 
-    --accent: #E8A849;
-    --accent-hover: #D4943E;
-    --accent-light: rgba(232, 168, 73, 0.12);
+    --accent: #63e963;
+    --accent-hover: #4cd14c;
+    --accent-light: rgba(99, 233, 99, 0.15);
 
-    --border: #252A36;
-    --border-focus: #E8A849;
+    --border: #1a2b1a;
+    --border-focus: #63e963;
 
-    --danger: #E05252;
-    --danger-hover: #C74444;
-    --success: #4ADE80;
-    --success-light: rgba(74, 222, 128, 0.08);
+    --danger: #ff6b6b;
+    --danger-hover: #ff4c4c;
+    --success: #63e963;
+    --success-light: rgba(99, 233, 99, 0.1);
 
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-    --shadow-glow: 0 0 30px rgba(232, 168, 73, 0.06);
+    --shadow-glow: 0 0 30px rgba(99, 233, 99, 0.05);
 
     /* Typography */
-    --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-mono: 'Source Code Pro', 'SF Mono', 'Fira Code', monospace;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
@@ -53,46 +53,47 @@
     --spacing-2xl: 3rem;
 
     /* Borders */
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 14px;
-    --radius-xl: 18px;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
 
     /* Layout */
     --sidebar-width: 260px;
-    --header-height: 64px;
+    --header-height: 80px;
 }
 
 [data-theme="light"] {
-    --bg-primary: #FDFDFC;
-    --bg-secondary: #F3F4F6;
-    --bg-card: #FFFFFF;
-    --bg-sidebar: rgba(255, 255, 255, 0.85);
-    --bg-input: #FFFFFF;
-    --bg-hover: #F3F4F6;
+    /* Stitch Light Theme - Green/White based */
+    --bg-primary: #f6f8f6;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-sidebar: #ffffff;
+    --bg-input: #ffffff;
+    --bg-hover: #e8f5e8;
 
-    --text-primary: #1F2937;
-    --text-secondary: #4B5563;
-    --text-muted: #9CA3AF;
-    --text-inverse: #FFFFFF;
+    --text-primary: #1a2b1a;
+    --text-secondary: #4a664a;
+    --text-muted: #8fa08f;
+    --text-inverse: #ffffff;
 
-    --accent: #E8A849;
-    /* Keep usage of amber */
-    --accent-hover: #D4943E;
-    --accent-light: rgba(232, 168, 73, 0.15);
+    --accent: #63e963;
+    /* The template uses green as primary action color */
+    --accent-hover: #4cd14c;
+    --accent-light: rgba(99, 233, 99, 0.1);
 
-    --border: #E5E7EB;
-    --border-focus: #E8A849;
+    --border: #e0e8e0;
+    --border-focus: #63e963;
 
-    --danger: #EF4444;
-    --danger-hover: #DC2626;
-    --success: #10B981;
-    --success-light: rgba(16, 185, 129, 0.1);
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --success: #63e963;
+    --success-light: rgba(99, 233, 99, 0.1);
 
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-glow: 0 0 20px rgba(232, 168, 73, 0.15);
+    --shadow-sm: 0 1px 2px rgba(26, 43, 26, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(26, 43, 26, 0.1), 0 2px 4px -1px rgba(26, 43, 26, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(26, 43, 26, 0.1), 0 4px 6px -2px rgba(26, 43, 26, 0.05);
+    --shadow-glow: 0 0 20px rgba(99, 233, 99, 0.15);
 }
 
 /* ===========================

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clippy - Premium Data Bridge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#63e963",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112111",
+                        "slate-premium": "#1a2b1a", // Derived from green hue
+                        "gold-accent": "#d4af37", // Adding a touch of elegance requested
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .clip-card:hover .quick-actions { opacity: 1; }
+        .quick-actions { opacity: 0; transition: opacity 0.2s ease-in-out; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-premium font-display">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-primary/10 bg-white dark:bg-background-dark flex flex-col justify-between p-6">
+<div class="flex flex-col gap-8">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-primary rounded-lg flex items-center justify-center text-slate-premium shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-2xl font-bold">link</span>
+</div>
+<div>
+<h1 class="text-xl font-extrabold tracking-tight">Clippy</h1>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold">Premium Bridge</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-slate-premium font-semibold" href="#">
+<span class="material-symbols-outlined text-primary">cached</span>
+<span>Vault</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 transition-colors text-slate-premium/60 hover:text-slate-premium" href="#">
+<span class="material-symbols-outlined">devices</span>
+<span>Devices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 transition-colors text-slate-premium/60 hover:text-slate-premium" href="#">
+<span class="material-symbols-outlined">share_reviews</span>
+<span>Shared</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 transition-colors text-slate-premium/60 hover:text-slate-premium" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+<div class="bg-slate-premium p-4 rounded-xl text-white">
+<div class="flex items-center gap-2 mb-2">
+<div class="h-2 w-2 rounded-full bg-primary animate-pulse"></div>
+<span class="text-xs font-medium text-white/70">Syncing Live</span>
+</div>
+<p class="text-xs text-white/50 mb-3">3 devices active</p>
+<button class="w-full py-2 bg-primary text-slate-premium rounded-lg text-xs font-bold hover:bg-primary/90 transition-all uppercase tracking-wider">
+                    New Clip
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Elegant Header Section -->
+<header class="px-10 pt-10 pb-6 flex flex-col gap-6">
+<div class="flex justify-between items-end">
+<div>
+<div class="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-[0.2em] mb-1">
+<span class="material-symbols-outlined text-sm">lock</span> Secure Connection
+                        </div>
+<h2 class="text-5xl font-extrabold tracking-tighter text-slate-premium">Personal Vault</h2>
+<p class="text-slate-premium/50 mt-2 text-lg font-light">128 encrypted items synced across 3 workstations.</p>
+</div>
+<div class="flex gap-3">
+<div class="flex border border-primary/20 rounded-lg p-1 bg-white shadow-sm">
+<button class="p-2 rounded-md bg-primary/10 text-primary">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 rounded-md text-slate-premium/40 hover:text-slate-premium transition-colors">
+<span class="material-symbols-outlined">list</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Stats Summary -->
+<div class="grid grid-cols-4 gap-4 mt-4">
+<div class="bg-white p-4 rounded-xl border border-primary/10 shadow-sm flex flex-col gap-1">
+<span class="text-[10px] uppercase font-bold text-primary/60 tracking-widest">Total Clips</span>
+<span class="text-2xl font-extrabold">1,284</span>
+</div>
+<div class="bg-white p-4 rounded-xl border border-primary/10 shadow-sm flex flex-col gap-1">
+<span class="text-[10px] uppercase font-bold text-primary/60 tracking-widest">Storage Used</span>
+<span class="text-2xl font-extrabold">1.2 GB</span>
+</div>
+<div class="bg-white p-4 rounded-xl border border-primary/10 shadow-sm flex flex-col gap-1">
+<span class="text-[10px] uppercase font-bold text-primary/60 tracking-widest">Last Sync</span>
+<span class="text-2xl font-extrabold">2m ago</span>
+</div>
+<div class="bg-white p-4 rounded-xl border border-primary/10 shadow-sm flex flex-col gap-1">
+<span class="text-[10px] uppercase font-bold text-primary/60 tracking-widest">Security Level</span>
+<span class="text-2xl font-extrabold text-primary">AES-256</span>
+</div>
+</div>
+</header>
+<!-- Filter & Search Bar -->
+<section class="px-10 py-4 sticky top-0 bg-background-light/80 backdrop-blur-md z-10 flex gap-4 items-center">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-premium/40">search</span>
+<input class="w-full bg-white border-primary/10 rounded-xl pl-12 py-3 focus:ring-primary focus:border-primary placeholder:text-slate-premium/30 shadow-sm" placeholder="Search your vault for keywords, links, or device sources..." type="text"/>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-premium text-white rounded-full text-sm font-medium whitespace-nowrap">
+<span class="material-symbols-outlined text-base">apps</span> All Content
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-primary/10 hover:border-primary/40 text-slate-premium/60 rounded-full text-sm font-medium whitespace-nowrap transition-all">
+<span class="material-symbols-outlined text-base">text_fields</span> Text
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-primary/10 hover:border-primary/40 text-slate-premium/60 rounded-full text-sm font-medium whitespace-nowrap transition-all">
+<span class="material-symbols-outlined text-base">link</span> Links
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-primary/10 hover:border-primary/40 text-slate-premium/60 rounded-full text-sm font-medium whitespace-nowrap transition-all">
+<span class="material-symbols-outlined text-base">image</span> Images
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-primary/10 hover:border-primary/40 text-slate-premium/60 rounded-full text-sm font-medium whitespace-nowrap transition-all">
+<span class="material-symbols-outlined text-base">smartphone</span> Mobile
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white border border-primary/10 hover:border-primary/40 text-slate-premium/60 rounded-full text-sm font-medium whitespace-nowrap transition-all">
+<span class="material-symbols-outlined text-base">laptop_mac</span> Desktop
+                    </button>
+</div>
+</section>
+<!-- Content Grid -->
+<section class="px-10 pb-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-4">
+<!-- Sophisticated Card 1 -->
+<div class="clip-card group bg-white border border-primary/5 rounded-xl shadow-lg shadow-primary/5 p-6 relative flex flex-col justify-between hover:border-primary/30 transition-all">
+<div class="quick-actions absolute top-4 right-4 flex gap-2">
+<button class="h-8 w-8 bg-background-light rounded-lg flex items-center justify-center hover:bg-primary transition-colors hover:text-slate-premium">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+<button class="h-8 w-8 bg-background-light rounded-lg flex items-center justify-center hover:bg-primary transition-colors hover:text-slate-premium">
+<span class="material-symbols-outlined text-lg">push_pin</span>
+</button>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-slate-premium/20">format_quote</span>
+</div>
+<p class="text-slate-premium font-medium leading-relaxed">The only way to do great work is to love what you do. Stay hungry, stay foolish.</p>
+</div>
+<div class="mt-6 pt-4 border-t border-primary/5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 bg-background-light rounded-full flex items-center justify-center text-slate-premium/40">
+<span class="material-symbols-outlined text-lg">smartphone</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-wide text-slate-premium">Sent from iPhone</span>
+<span class="text-[10px] text-slate-premium/40">Copied 2m ago</span>
+</div>
+</div>
+<span class="text-[10px] bg-primary/20 text-slate-premium px-2 py-1 rounded font-bold">TEXT</span>
+</div>
+</div>
+<!-- Sophisticated Card 2 -->
+<div class="clip-card group bg-white border border-primary/5 rounded-xl shadow-lg shadow-primary/5 p-6 relative flex flex-col justify-between hover:border-primary/30 transition-all">
+<div class="quick-actions absolute top-4 right-4 flex gap-2">
+<button class="h-8 w-8 bg-background-light rounded-lg flex items-center justify-center hover:bg-primary transition-colors hover:text-slate-premium">
+<span class="material-symbols-outlined text-lg">open_in_new</span>
+</button>
+<button class="h-8 w-8 bg-background-light rounded-lg flex items-center justify-center hover:bg-primary transition-colors hover:text-slate-premium">
+<span class="material-symbols-outlined text-lg">share</span>
+</button>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">link</span>
+</div>
+<h4 class="font-bold text-lg mb-1 line-clamp-1">Design Inspiration | Dribbble</h4>
+<p class="text-sm text-primary font-medium truncate">https://dribbble.com/shots/23490-Premium-UI-Design</p>
+</div>
+<div class="mt-6 pt-4 border-t border-primary/5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 bg-background-light rounded-full flex items-center justify-center text-slate-premium/40">
+<span class="material-symbols-outlined text-lg">laptop_mac</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-wide text-slate-premium">Copied on MacBook Pro</span>
+<span class="text-[10px] text-slate-premium/40">Copied 14m ago</span>
+</div>
+</div>
+<span class="text-[10px] bg-blue-100 text-blue-600 px-2 py-1 rounded font-bold">LINK</span>
+</div>
+</div>
+<!-- Sophisticated Card 3 -->
+<div class="clip-card group bg-white border border-primary/5 rounded-xl shadow-lg shadow-primary/5 p-6 relative flex flex-col justify-between hover:border-primary/30 transition-all">
+<div class="quick-actions absolute top-4 right-4 flex gap-2">
+<button class="h-8 w-8 bg-background-light rounded-lg flex items-center justify-center hover:bg-primary transition-colors hover:text-slate-premium">
+<span class="material-symbols-outlined text-lg">download</span>
+</button>
+</div>
+<div>
+<div class="h-32 w-full bg-background-light rounded-lg mb-4 overflow-hidden border border-primary/10">
+<img alt="Abstract Gradient Art" class="w-full h-full object-cover" data-alt="Vibrant abstract flowing gradient in green and blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuA9fGb1dzWT6R6S-Y7Eb6p74C2Opv2kreweBLF6SUQjtNB7coeif3GbL1gWXbyWb4hEQD9j53wv8-cFmdsG9EI3D7CjaVRMYefYZFz43xngEnJcoCLjljTt1o5RJ2yGWBS_YWtcOY1qrSRYQTF63ddzYQAoIJM8hrk1gHoWrFg3JvUaAhjCcXzc2dqPcES08lELYUFn5ilqu2HYO_vzyE74M5eDm0sv8o0wcxVZQud8fnwgljvslWr1j5YiaAzU9ZbVc2MhgkI40A"/>
+</div>
+<h4 class="font-bold text-sm truncate">brand-identity-v2-final.jpg</h4>
+<p class="text-[10px] text-slate-premium/40">2.4 MB • Image</p>
+</div>
+<div class="mt-4 pt-4 border-t border-primary/5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 bg-background-light rounded-full flex items-center justify-center text-slate-premium/40">
+<span class="material-symbols-outlined text-lg">cloud</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-wide text-slate-premium">Uploaded from Cloud</span>
+<span class="text-[10px] text-slate-premium/40">1h ago</span>
+</div>
+</div>
+<span class="text-[10px] bg-purple-100 text-purple-600 px-2 py-1 rounded font-bold">FILE</span>
+</div>
+</div>
+<!-- Sophisticated Card 4 -->
+<div class="clip-card group bg-white border border-primary/5 rounded-xl shadow-lg shadow-primary/5 p-6 relative flex flex-col justify-between hover:border-primary/30 transition-all">
+<div class="quick-actions absolute top-4 right-4 flex gap-2">
+<button class="h-8 w-8 bg-background-light rounded-lg flex items-center justify-center hover:bg-primary transition-colors hover:text-slate-premium">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-slate-premium/20">code</span>
+</div>
+<div class="bg-slate-premium p-3 rounded-lg">
+<code class="text-[10px] text-primary/70 block">npm install @clippy/bridge-sdk</code>
+<code class="text-[10px] text-white/50 block"># Config key: AE92-X12-B9</code>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-primary/5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 bg-background-light rounded-full flex items-center justify-center text-slate-premium/40">
+<span class="material-symbols-outlined text-lg">terminal</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-wide text-slate-premium">Copied from VS Code</span>
+<span class="text-[10px] text-slate-premium/40">4h ago</span>
+</div>
+</div>
+<span class="text-[10px] bg-orange-100 text-orange-600 px-2 py-1 rounded font-bold">CODE</span>
+</div>
+</div>
+<!-- Sophisticated Card 5 (Longer text) -->
+<div class="clip-card group bg-white border border-primary/5 rounded-xl shadow-lg shadow-primary/5 p-6 relative flex flex-col justify-between hover:border-primary/30 transition-all xl:col-span-2">
+<div class="quick-actions absolute top-4 right-4 flex gap-2">
+<button class="h-8 w-8 bg-background-light rounded-lg flex items-center justify-center hover:bg-primary transition-colors hover:text-slate-premium">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-slate-premium/20">notes</span>
+</div>
+<h4 class="font-bold text-slate-premium mb-2">Meeting Notes: Project Clippy Phase 2</h4>
+<p class="text-slate-premium/60 text-sm leading-relaxed">Discussing the implementation of AES-256 encryption on all metadata packets. The user experience should remain fluid even when synchronization is happening in the background. MacBook and iPhone are primary targets.</p>
+</div>
+<div class="mt-6 pt-4 border-t border-primary/5 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 bg-background-light rounded-full flex items-center justify-center text-slate-premium/40">
+<span class="material-symbols-outlined text-lg">laptop_mac</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold uppercase tracking-wide text-slate-premium">Copied on iMac 27"</span>
+<span class="text-[10px] text-slate-premium/40">Yesterday</span>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="text-[10px] bg-slate-premium text-white px-2 py-1 rounded font-bold">ENCRYPTED</span>
+<span class="text-[10px] bg-primary/20 text-slate-premium px-2 py-1 rounded font-bold">DOC</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Encrypted Badge -->
+<footer class="mt-auto border-t border-primary/5 py-4 px-10 flex justify-between items-center text-[10px] uppercase font-bold tracking-widest text-slate-premium/30">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+                    End-to-End Encrypted Bridge
+                </div>
+<div>
+                    v2.4.0 • Enterprise License
+                </div>
+</footer>
+</main>
+</div>
+</body></html>
